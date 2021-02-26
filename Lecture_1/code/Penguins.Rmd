@@ -254,12 +254,12 @@ and change the colors of sex to any color you would like by using so called "hex
 Try to change the colors of male penguins to Manchester United red and females to the color mediumblue.
 
 _hint_: Why does scale_color_manual not work?
-
+Scale colour manual does not work because we have no argument colour specified. We want to color the argument "fill", so we have to take scale_fill_manual.
 
 
 ```{r}
 # Here your code
-ggplot()+geom_boxplot(data=penguins, aes(x=species, y=body_mass_g, fill=sex))+ylab("body mass in grams")+facet_wrap(~island)+scale_fill_manual(values=c("#0000CD", "#DA291C"))
+ggplot()+geom_boxplot(data=penguins, aes(x=species, y=body_mass_g, fill=sex))+ylab("body mass in grams")+facet_wrap(~island)+scale_fill_manual(values=c("female" ="#0000CD","male" = "#DA291C"))
 
 
 ```
