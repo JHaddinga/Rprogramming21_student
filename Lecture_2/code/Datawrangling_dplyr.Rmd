@@ -206,7 +206,7 @@ _hint_: check `?select` for help if needed.
 # Here your code
 df3 <- gapminder %>%
   select(contains("o"), year) %>%
-  arrange(pop) %>%
+  arrange(-pop) %>%
   mutate(ranking = c((country))) %>%
   filter(ranking==27| ranking==531)
 df3
@@ -289,7 +289,7 @@ _hint 3_: You need to change some labels. To get the line breaks in the legend, 
 # Here your code
 ggplot()+
   geom_point(data=df4, aes(x= Mean_LE, y=reorder(continent, Mean_LE), size=Mean_GDP), color="blue")+ geom_segment(data = df4, aes(x=0, y =continent, xend=Mean_LE, yend= continent), color="blue")+ theme_bw()+
-  labs(caption= "source=gapminder dataset", y= "", x="Weighted mean of life expectancy", size= "weighted mean\nof GDP \ nper capita")
+  labs(caption= "source=gapminder dataset", y= "", x="Weighted mean of life expectancy", size= "weighted mean \nof GDP \nper capita")
 
 ```
 
