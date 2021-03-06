@@ -19,7 +19,8 @@ Load these packages:
 
 ```{r}
 # Here your code
-
+library(tidyverse)
+library(readxl)
 ```
 
 
@@ -95,7 +96,9 @@ Try to do this and look at the result:
 
 ```{r}
 # Here your code
+merged_hospital <- merge(data1, data2)
 
+merged_hospital
 ```
 
 
@@ -112,7 +115,7 @@ Try `merged_dataframe <- full_join(your_first_data_frame, your_second_dataframe,
 
 ```{r}
 # Here your code
-
+merged_data <- full_join(data1, data2, by="Hospital")
 
 ```
 
@@ -127,6 +130,7 @@ Now try the command  `inner_join()` and inspect the results:
 
 ```{r}
 # Here your code
+ merged_data1 <- inner_join(data1, data2, by="Hospital")
 
 ```
 
@@ -140,6 +144,7 @@ Inspect the results of `left_join()` and try to see what happens if you change t
 
 ```{r}
 # Here your code
+ merged_data2 <- left_join(data2, data1, by="Hospital")
 
 
 ```
@@ -152,7 +157,7 @@ Try `right_join()` as the mirror of `left_join()` and inspect the result.
 
 ```{r}
 # Here your code
-
+right_join(data2, data1, by="Hospital")
 
 ```
 
@@ -169,7 +174,7 @@ Inspect the results of `anti_join()`
 
 ```{r}
 # Here your code
-
+anti_join(data1, data2, by="Hospital")
 
 ```
 
@@ -184,7 +189,7 @@ The `semi_join()` command returns all hospitals present in the first and the sec
 ```{r}
 
 # Here your code
-
+semi_join(data2, data1, by="Hospital")
 
 ```
 
@@ -212,8 +217,9 @@ And now try to use `name_of_your_merged_dataframe <- cbind(data1, data2a)`
 
 ```{r}
 # Here your code
+merged_Hospitals <- cbind(data1, data2a)
 
-
+merged_Hospitals
 ```
 
 
@@ -238,8 +244,9 @@ Now try to paste the second dataframe to the first one, using `rbind()`.
 
 ```{r}
 # Here your code
+new_Hospital <- rbind(data1, data1a)
 
-
+new_Hospital
 ```
 
 
