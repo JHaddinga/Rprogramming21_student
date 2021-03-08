@@ -303,7 +303,10 @@ _hint_: You could use `filter()`, however in this case `slice()` could be a good
 ```{r}
 
 # Here your code
-
+Countries <- read_xls("/Users/JoostHaddinga_1/Desktop/University/SemesterII/Programming/R_Lectures/Rprogramming21_student/Lecture_3/sourcedata/OECD-Health-Statistics-2020-Frequently-Requested-Data.xls", sheet="Curr exp, per capita US$PPP", skip=3) %>%
+  rename('Country'='...1','2019'='2019...51') %>%
+  select('Country', '2011':'2019') %>%
+  slice(1:5)
 
 ```
 
@@ -348,8 +351,9 @@ _hint_: Remember that colum names with numbers should be written as `2011` to pr
 ```{r}
 
 # Here your code
+df2 <- data.frame(pivot_longer(Countries, !Country, names_to="Year", values_to="Expenditure"))
 
-
+df2
 ```
 
 
@@ -392,7 +396,7 @@ Don't forget change the labels and the x-axis and choose a theme of your liking.
 
 ```{r}
 # Here your code
-
+ggplot(df2, aes(x=as.integer(Year), y=Expenditure, colour=Country))+geom_line()+theme_minimal()+labs(x="", y="Expenditure per capita in PPP")+scale_x_continuous(breaks=c(2011:2019))
 
 ```
 
@@ -409,8 +413,9 @@ Make a new data frame df3, based on df2 with only the observations of the year 2
 ```{r}
 
 # Here your code
-
-
+df3 <- df2 %>%
+  subset(Year > 2017, select= c(Country:Expenditure))
+df3
 ```
 
 
@@ -437,9 +442,9 @@ Make a new wide data frame df4 which looks like table above based on the long da
 
 ```{r}
 # Here your code
+df4 <- pivot_wider(df3, names_from = 'Year' , values_from = 'Expenditure')
 
-
-
+df4
 ```
 
 
@@ -453,7 +458,15 @@ _hint_ note the `` around the variable names.
 
 ```{r}
 # Here your code
+df4a <- rename(.data = df4, Year1 = "2018", Year2="2019")
+df4a
 
+df4b <-df4a %>%
+  select(Country,Year1, Year2) %>%
+  group_by(Country) %>%
+  mutate(Growth = (Year2-Year1)/Year1)
+
+df4b
 
 ```
 
@@ -468,8 +481,12 @@ Recreate this plot:
 
 ```{r}
 # Here your code
+df4c <- df4b %>%
+  arrange(desc(Growth))
 
+df4c
 
+ggplot(df4c, aes(x=reorder(Country, -Growth), y=Growth, fill=Country), show.legend = FALSE)+geom_col()+labs(x="")+theme(legend.position = "none")
 
 ```
 
