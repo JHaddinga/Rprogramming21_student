@@ -1,0 +1,52 @@
+---
+title: "First own creations"
+output: html_notebook
+---
+
+These are my first own creations without relying on previous commands or rather committing given orders.
+Following is the introduction of some data, its organization and in the end its plot.
+
+First action is to install necessary packages.
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+Now let's read some downloaded data.
+
+```{r}
+Prices <- read_xlsx("/Users/JoostHaddinga_1/Desktop/University/SemesterII/Programming/R_Lectures/Rprogramming21_student/Lecture_3/sourcedata/Prices_Production_and_Labor.xlsx", skip=5)
+
+```
+
+Select the countries I want to use: United States, United Kingdom, Barbados, Afghanistan, China, Canada, Belgium, Austria, Belize
+
+```{r}
+Countries <-c("United States", "United Kingdom", "Barbados", "Afghanistan, Islamic Rep. of", "China", "Canada", "Belgium", "Austria", "Belize")
+
+My_countries <- data.frame(Prices) %>%
+  filter(Country %in% Countries) %>%
+  select(Country, contains("Q"))
+
+
+```
+
+Now I have got the data I need to get with it.
+First, let's rearrange the data.
+
+```{r}
+df1 <- pivot_longer(My_countries, !Country, names_to = "Quarter" , values_to = "CPI")
+
+df1
+
+
+
+```
+```{r}
+ggplot(df1, aes(x=Quarter, y= as.integer(CPI), colour=Country, group=Country))+geom_line()+theme_linedraw()+labs(title="My graph", caption="IMF database", y = "CPI")+scale_x_discrete(breaks=c('X2013Q1', 'X2014Q1', 'X2015Q1', 'X2016Q1', 'X2017Q1', 'X2018Q1', 'X2019Q1', 'X2020Q1'))
+
+
+```
+
+
