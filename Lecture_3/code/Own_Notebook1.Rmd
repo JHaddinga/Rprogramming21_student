@@ -49,4 +49,63 @@ ggplot(df1, aes(x=Quarter, y= as.integer(CPI), colour=Country, group=Country))+g
 
 ```
 
+First graph worked ok. Nothing special but a satisfying start. Maybe I can do some more.
+I need different data.
+
+```{r}
+data_x <- read_xlsx("/Users/JoostHaddinga_1/Desktop/University/SemesterII/Programming/R_Lectures/Rprogramming21_student/Lecture_3/sourcedata/Interest_Rates.xlsx", skip=5) %>%
+  select(Country, "2014", "2015","2017", "2018", "2020") %>%
+  slice(54:63)
+
+data_x
+```
+```{r}
+data_xy <- data.frame(data_x) %>%
+  mutate('New Zealand' = as.factor(ifelse(Country == "New Zealand", 1, 0))) %>%
+  rename("2014" ="X2014", "2015" = "X2015", "2017" = "X2017", "2018" = "X2018", "2020"="X2020")
+  
+
+
+data_xy
+```
+
+```{r}
+data_z <- data.frame(pivot_longer(data_xy, '2014':'2020', names_to = "Year", values_to = "Interest Rate"))
+
+data_z
+```
+Make a plot
+```{r}
+ggplot(data_z, aes(x=as.integer(Year), y= as.integer(Interest.Rate), color=Country, alpha=New.Zealand))+geom_line()+theme_bw()+labs(x="Year", y="Interest rate p. a.", title="Interest rates over time", subtitle = "Analysis by Joost Haddinga", caption = "source: IMF database")+scale_alpha_manual(values=c("1" = 2.5, "0"=0.4))+scale_colour_manual(values=c("New Zealand"="black", "Norway" ="green", "Nepal"="lightblue", "Mexico"="red", "Papua Neuguinea"="orange", "Niger"="318954", "Nigeria"="721092", "Mongolia"="567890", "Moldova, Rep. of"="874321", "Mauritius" ="043479"))
+```
+
+Now I can also combine both datasets
+
+```{r}
+CPI_2020 <- select(Prices, Country,"2020")
+Interest_2020 <- read_xlsx("/Users/JoostHaddinga_1/Desktop/University/SemesterII/Programming/R_Lectures/Rprogramming21_student/Lecture_3/sourcedata/Interest_Rates.xlsx", skip=5) %>%
+  select(Country, "2020")
+
+```
+Put data sets together
+```{r}
+Combined <- merge(CPI_2020, Interest_2020, by="Country") %>%
+  rename("CPI"="2020.x", "Intpa"="2020.y")
+ 
+
+Combined
+```
+Choose countries of interest
+```{r}
+Interest <- c("Canada", "Chile", "Colombia", "Georgia", "Honduras", "Indonesia", "Israel", "Nepal", "Rwanda", "Turkey")
+
+Combined_1 <- filter(Combined, Country %in% Interest)
+
+Combined_1
+```
+
+Make a last plot
+```{r}
+ggplot(Combined_1, aes(x=as.integer(CPI), y=as.integer(Intpa), colour=Country))+geom_point()+theme_get()+labs(x="Price level", y="Interest rate p. a.", title = "The world in 2020",caption="Own creation",subtitle= "Exploring possible correlations between price level and interest rates")
+```
 

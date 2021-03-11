@@ -146,7 +146,7 @@ Inspect the results of `left_join()` and try to see what happens if you change t
 # Here your code
  merged_data2 <- left_join(data2, data1, by="Hospital")
 
-
+merged_data2
 ```
 
 
@@ -157,7 +157,9 @@ Try `right_join()` as the mirror of `left_join()` and inspect the result.
 
 ```{r}
 # Here your code
-right_join(data2, data1, by="Hospital")
+merged_data3 <- right_join(data2, data1, by="Hospital")
+
+merged_data3
 
 ```
 
